@@ -92,10 +92,6 @@ window.top.musicBox = (function () {
             var canSync = /\d+\:\d+\.\d+/.test(lyricString);
             _log('%c输入%cmusicBox.showLyric(false)%c来关闭歌词显示.', _mutedStyle, _commandStyle, _mutedStyle);
 
-            _LyricTimers.forEach(function (item) {
-                clearTimeout(item);
-            });
-
             if(canSync){
                 lyricString = lyricString.trim().split(/\n/);
                 for(var i = 0, len = lyricString.length; i < len; i++){
@@ -209,6 +205,9 @@ window.top.musicBox = (function () {
                     _currentIndex = key;
                     if(_showLyric){
                         _queryData('/music/lyric', {id: _searchDataCache[key]['id']}, function (res) {
+                            _LyricTimers.forEach(function (item) {
+                                clearTimeout(item);
+                            });
                             res['nolyric'] || !(res['lrc'] && res['lrc']['lyric']) ? console.log('%c没有找到歌词...' + _sign, _mutedStyle) : _parseLyric(res['lrc']['lyric']);
                             audio.play();
                         });
