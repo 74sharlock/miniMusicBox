@@ -91,12 +91,13 @@ window.top.musicBox = (function () {
             var start = Date.now();
             var canSync = /\d+\:\d+\.\d+/.test(lyricString);
             _log('%c输入%cmusicBox.showLyric(false)%c来关闭歌词显示.', _mutedStyle, _commandStyle, _mutedStyle);
-            
+
+            _LyricTimers.forEach(function (item) {
+                clearTimeout(item);
+            });
+
             if(canSync){
                 lyricString = lyricString.trim().split(/\n/);
-                _LyricTimers.forEach(function (item) {
-                    clearTimeout(item);
-                });
                 for(var i = 0, len = lyricString.length; i < len; i++){
                     var item = lyricString[i],
                         timeArr = item.match(/\d+\:\d+\.\d+/)[0].split(/\:|\./),
