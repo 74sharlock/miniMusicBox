@@ -99,7 +99,7 @@ window.top.musicBox = (function () {
                     var item = lyricString[i],
                         timeArr = item.match(/\d+\:\d+\.\d+/g) && item.match(/\d+\:\d+\.\d+/g)[0].split(/\:|\./),
                         timer = item.match(/\d+\:\d+\.\d+/g) ? (Number(timeArr[0]) * 60 * 1000 + Number(timeArr[1]) * 1000 + Number(timeArr[2])) : 0,
-                        str = item.split(/\[\d+\:\d+\.\d+\]/)[1] ? item.split(/\[\d+\:\d+\.\d+\]/)[1].trim() : item;
+                        str = item.split(/\[\d+\:\d+\.\d+\]/)[1] ? item.split(/\[\d+\:\d+\.\d+\]/)[1].trim() : (item.split(/\[\d+\:\d+\.\d+\]/)[0] && item);
                     _LyricTimers.push(setTimeout((function (s) {
 
                         return function () {
@@ -112,6 +112,13 @@ window.top.musicBox = (function () {
                 _log('%c这个歌词无法同步播放, 只好请直接查看了. ' + _sign, _mutedStyle);
                 _log('%c' + lyricString, _lyricStyle);
             }
+        };
+
+        audio.onerror = function () {
+            _LyricTimers.forEach(function (item) {
+                clearTimeout(item);
+            });
+            return _log('%c音乐文件似乎出了问题-_-...按照播放地址并没有找到文件', _logStyle);
         };
 
         audio.onplay = function () {
