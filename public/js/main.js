@@ -94,11 +94,12 @@ window.top.musicBox = (function () {
 
             if(canSync){
                 lyricString = lyricString.trim().split(/\n/);
+                //console.log(lyricString);
                 for(var i = 0, len = lyricString.length; i < len; i++){
                     var item = lyricString[i],
-                        timeArr = item.match(/\d+\:\d+\.\d+/)[0].split(/\:|\./),
-                        timer = Number(timeArr[0]) * 60 * 1000 + Number(timeArr[1]) * 1000 + Number(timeArr[2]),
-                        str = item.split(/\[\d+\:\d+\.\d+\]/)[1].trim();
+                        timeArr = item.match(/\d+\:\d+\.\d+/g) && item.match(/\d+\:\d+\.\d+/g)[0].split(/\:|\./),
+                        timer = item.match(/\d+\:\d+\.\d+/g) ? (Number(timeArr[0]) * 60 * 1000 + Number(timeArr[1]) * 1000 + Number(timeArr[2])) : 0,
+                        str = item.split(/\[\d+\:\d+\.\d+\]/)[1] ? item.split(/\[\d+\:\d+\.\d+\]/)[1].trim() : item;
                     _LyricTimers.push(setTimeout((function (s) {
 
                         return function () {
