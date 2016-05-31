@@ -44,7 +44,7 @@ export default () => {
                     // 发送404响应:
                     res.writeHead(404, {'content-type': 'text/html'});
                     //fs.createReadStream(path.join(root, '/static/target/404.html')).pipe(res);
-                    res.end('<h1>404 not found!</h1>')
+                    res.end('<h1>404 not found!<a href="/index.html">圣光, 请指引我去正确的地址吧!</h1>')
                 }
             });
         }
