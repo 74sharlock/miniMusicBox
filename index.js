@@ -3,8 +3,8 @@ const path = require('path');
 
 let win;
 let winConfig = {
-    width: 1300,
-    height: 1120
+    width: 375,
+    height: 667
 };
 
 let creatWin = function(){

@@ -1,18 +1,19 @@
 const yes = true;
 const no = false;
-const {component} = require('../helpers');
 
-const routerMap = {
+module.exports = {
     '/': {
         page: {
             modelName: 'home',
             pageTitle: '首页',
             priority: 0
-        },
-        component: component(require('../components/home'), 'home')
+        }
+    },
+    '/search/:name': {
+        page: {
+            modelName: 'search',
+            pageTitle: '发现',
+            priority: 0
+        }
     }
-};
-
-module.exports = function (router) {
-    router.map(routerMap);
 };

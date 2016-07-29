@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>foobar</title>
+    <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="./styles/app.css">
 </head>
 <body>
@@ -11,11 +12,17 @@
     <router-view></router-view>
 </div>
 <template data-ref="header">
-    <header><a class="logo"></a><input type="search" v-model="keyword"><div class="tools"></div></header>
+    <header><a class="logo">Foobar</a><input type="search" v-model="keyword" @keyup.enter="searchSongs"><div class="tools">全部行动创作<a class="fa fa-remove"></a></div></header>
 </template>
 <template data-ref="home">
     <div class="page home">
-        index
+    </div>
+</template>
+<template data-ref="search">
+    <div class="page search">
+        <ul>
+            <li v-for="song in songs" @click="play(song.mp3Url)">{{song.name}}</li>
+        </ul>
     </div>
 </template>
 <script src="./app.js"></script>

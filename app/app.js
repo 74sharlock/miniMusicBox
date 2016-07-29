@@ -1,11 +1,9 @@
 const Vue = require('vue');
 const VueRouter = require('vue-router');
-const routerMap = require('./config/router');
+const routerConfig = require('./config/router');
 const {component} = require('./helpers');
 const filters = require('./filters');
 const appHeader = component(require('./components/header'), 'header');
-
-const musicService = require('./service/music');
 
 Vue.use(VueRouter);
 
@@ -18,7 +16,16 @@ const router = new VueRouter({
     linkActiveClass: 'active'
 });
 
-routerMap(router);
+let routerMap = {};
+
+//component: component(require('../components/home'), 'home')
+Object.keys(routerConfig).forEach((key)=>{
+    let thisRouter = routerConfig[key];
+    routerMap[key] = thisRouter;
+    routerMap[key].component = component(require(`./components/${thisRouter.page.modelName}`), thisRouter.page.modelName);
+});
+
+router.map(routerMap);
 
 router.start({
     components: {
