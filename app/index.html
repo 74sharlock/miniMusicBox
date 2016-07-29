@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>foobar</title>
+    <link rel="stylesheet" href="./styles/app.css">
+</head>
+<body>
+<div id="app">
+    <app-header></app-header>
+    <router-view></router-view>
+</div>
+<template data-ref="header">
+    <header><a class="logo"></a><input type="search" v-model="keyword"><div class="tools"></div></header>
+</template>
+<template data-ref="home">
+    <div class="page home">
+        index
+    </div>
+</template>
+<script src="./app.js"></script>
+</body>
+</html>
