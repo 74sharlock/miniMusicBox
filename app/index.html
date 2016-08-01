@@ -22,7 +22,7 @@
 <template data-ref="search">
     <div class="page search">
         <ul>
-            <li v-for="song in songs" @click="play(song)">{{song.name}}</li>
+            <li v-for="song in songs" @click="play(song)">{{song.name}}-{{song.artists[0].name}}</li>
         </ul>
     </div>
 </template>
