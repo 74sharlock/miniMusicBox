@@ -10,9 +10,10 @@
 <div id="app">
     <app-header></app-header>
     <router-view></router-view>
+    <app-footer></app-footer>
 </div>
 <template data-ref="header">
-    <header><a class="logo">Foobar</a><input type="search" v-model="keyword" @keyup.enter="searchSongs"><div class="tools">全部行动创作<a class="fa fa-remove"></a></div></header>
+    <header><a class="logo">&#x266a;</a><input type="search" v-model="keyword" @keyup.enter="searchSongs"><div class="tools"><a class="fa fa-remove"></a></div></header>
 </template>
 <template data-ref="home">
     <div class="page home">
@@ -21,9 +22,20 @@
 <template data-ref="search">
     <div class="page search">
         <ul>
-            <li v-for="song in songs" @click="play(song.mp3Url)">{{song.name}}</li>
+            <li v-for="song in songs" @click="play(song)">{{song.name}}</li>
         </ul>
     </div>
+</template>
+<template data-ref="play">
+    <div class="page play">
+        <div class="cover"></div>
+        <div class="spectrum">
+            <canvas></canvas>
+        </div>
+    </div>
+</template>
+<template data-ref="footer">
+    <footer></footer>
 </template>
 <script src="./app.js"></script>
 </body>

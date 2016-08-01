@@ -12,14 +12,14 @@ let route = {
     }
 };
 
-let core = function (method, query) {
+let core = function (method, query, isBuffer) {
     return new Promise (function (resolve, reject) {
         let body = '';
-        /*let clientIp = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;*/
+        let buffers = [];
         let req = http.request({
             hostname: 'music.163.com',
             port: 80,
-            path: route[method](query),
+            path: isBuffer ? query : route[method](query),
             method: 'POST',
             headers: {
                 'Accept-Encoding': 'identity;q=1, *;q=0',
@@ -35,10 +35,11 @@ let core = function (method, query) {
             }
         }, function(res) {
             res.on('data', function(chuck) {
-                return body += chuck;
+                isBuffer ? buffers.push(chuck) : (body += chuck);
             });
             res.on('end', function() {
-                resolve(JSON.parse(body));
+                isBuffer && (buffers = Buffer.concat(buffers));
+                resolve(isBuffer ? buffers : JSON.parse(body));
             });
             res.on('error', function (err) {
                 reject(err);
@@ -57,6 +58,9 @@ module.exports = {
     },
     getLyric(query){
         return core('lyric', query);
+    },
+    getBuffer(src){
+        return core(null, src, true);
     }
 };
 

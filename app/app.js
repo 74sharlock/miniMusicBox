@@ -4,6 +4,7 @@ const routerConfig = require('./config/router');
 const {component} = require('./helpers');
 const filters = require('./filters');
 const appHeader = component(require('./components/header'), 'header');
+const appFooter = component(require('./components/footer'), 'footer');
 
 Vue.use(VueRouter);
 
@@ -18,7 +19,6 @@ const router = new VueRouter({
 
 let routerMap = {};
 
-//component: component(require('../components/home'), 'home')
 Object.keys(routerConfig).forEach((key)=>{
     let thisRouter = routerConfig[key];
     routerMap[key] = thisRouter;
@@ -29,6 +29,7 @@ router.map(routerMap);
 
 router.start({
     components: {
-        appHeader
+        appHeader,
+        appFooter
     }
 }, '#app'); 

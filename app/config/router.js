@@ -15,5 +15,12 @@ module.exports = {
             pageTitle: '发现',
             priority: 0
         }
+    },
+    '/play': {
+        page: {
+            modelName: 'play',
+            pageTitle: '发现',
+            priority: 0
+        }
     }
 };
