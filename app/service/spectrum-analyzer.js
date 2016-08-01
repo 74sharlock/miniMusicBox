@@ -3,6 +3,7 @@ module.exports = {
     sourceNode: null,
     canvasNode: null,
     context: null,
+    status: 0,
     init(src){
         this.src = src;
         this.context = new AudioContext();
@@ -12,7 +13,6 @@ module.exports = {
         return this;
     },
     loadSound(url) {
-        console.log(this.sourceNode);
         let request = new XMLHttpRequest(), that = this;
         request.open('GET', url, true);
         request.responseType = 'arraybuffer';
@@ -40,8 +40,9 @@ module.exports = {
     drawSpectrum(analyser){
         let canvas = document.querySelector('canvas'), parent = canvas.parentNode;
         canvas.width = parseInt(getComputedStyle(parent).width, 10) - 10;
-        canvas.height = 80;
-        let cwidth = canvas.width,
+        canvas.height = parseInt(getComputedStyle(parent).height, 10) - 20;
+        let that = this,
+            cwidth = canvas.width,
             cheight = canvas.height - 2,
             meterWidth = 10, //频谱条宽度
             gap = 2, //频谱条间距
@@ -50,15 +51,32 @@ module.exports = {
             meterNum = 800 / (10 + 2), //频谱条数量
             capYPositionArray = [], //将上一画面各帽头的位置保存到这个数组
             ctx = canvas.getContext('2d'),
-            gradient = ctx.createLinearGradient(0, 0, 0, 78);
+            gradient = ctx.createLinearGradient(0, 0, 0, cheight);
         gradient.addColorStop(1, '#0f0');
         gradient.addColorStop(0.5, '#ff0');
         gradient.addColorStop(0, '#f00');
         var drawMeter = function() {
             var array = new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(array);
+
+            /*if (that.status === 0) {
+                //fix when some sounds end the value still not back to zero
+                for (let i = array.length - 1; i >= 0; i--) {
+                    array[i] = 0;
+                }
+                let allCapsReachBottom = true;
+                for (let i = capYPositionArray.length - 1; i >= 0; i--) {
+                    allCapsReachBottom = allCapsReachBottom && (capYPositionArray[i] === 0);
+                }
+                if (allCapsReachBottom) {
+                    cancelAnimationFrame(that.animationId);
+                    return;
+                }
+            }*/
+
             var step = Math.round(array.length / meterNum); //计算采样步长
             ctx.clearRect(0, 0, cwidth, cheight);
+
             for (var i = 0; i < meterNum; i++) {
                 var value = array[i * step]; //获取当前能量值
                 if (capYPositionArray.length < Math.round(meterNum)) {
@@ -67,14 +85,14 @@ module.exports = {
                 ctx.fillStyle = capStyle;
                 //开始绘制帽头
                 if (value < capYPositionArray[i]) { //如果当前值小于之前值
-                    ctx.fillRect(i *12,cheight-(--capYPositionArray[i]),meterWidth,capHeight);//则使用前一次保存的值来绘制帽头
+                    ctx.fillRect(i *12, cheight-(--capYPositionArray[i]) < 0 ? 0 : (cheight-(--capYPositionArray[i])), meterWidth, capHeight);//则使用前一次保存的值来绘制帽头
                 } else {
-                    ctx.fillRect(i * 12, cheight - value, meterWidth, capHeight); //否则使用当前值直接绘制
+                    ctx.fillRect(i * 12, (cheight - value) < 0 ? 0 : (cheight - value), meterWidth, capHeight); //否则使用当前值直接绘制
                     capYPositionArray[i] = value;
                 }
                 //开始绘制频谱条
                 ctx.fillStyle = gradient;
-                ctx.fillRect(i * 12, cheight - value + capHeight, meterWidth, cheight);
+                ctx.fillRect(i * 12, cheight - value + capHeight < 2 ? 2 : (cheight - value + capHeight) , meterWidth, cheight);
             }
             requestAnimationFrame(drawMeter);
         };
