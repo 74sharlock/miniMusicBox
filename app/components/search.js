@@ -21,6 +21,7 @@ module.exports = {
     route: {
         data({next}){
             musicService.search({s: this.$route.params.name}).then(function (data) {
+                console.log(data);
                 next({
                     songs: data.result.songs,
                     totalPage: Math.ceil(data.result.songCount / cache.limit)

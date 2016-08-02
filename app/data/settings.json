@@ -1,9 +1,10 @@
 {
   "curSong": {},
-  "limit": 15,
+  "limit": 100,
   "playModel": 2,
   "curPlayList": [],
   "curPlayIndex": 0,
+  "playing": false,
   "myList": {
     "default":[]
   }

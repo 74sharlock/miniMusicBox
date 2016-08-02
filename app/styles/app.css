@@ -74,12 +74,6 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: #ccc;
-}
-footer .logo {
-  padding-left: 1rem;
-  font-size: 24px;
-  color: #ccc;
 }
 .page.search ul {
   height: calc(100% - 30px);

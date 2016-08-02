@@ -8,5 +8,6 @@ module.exports = {
             template: tpl ? tpl.innerHTML : '<div></div>'
         }, obj);
         return Vue.extend(obj);
-    }
+    },
+    random: (n1, n2)=> Math.round(Math.random() * Math.abs(n1 - n2) + Math.min(n1, n2))
 };

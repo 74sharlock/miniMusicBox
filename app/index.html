@@ -13,7 +13,7 @@
     <app-footer></app-footer>
 </div>
 <template data-ref="header">
-    <header><a class="logo">&#x266a;</a><input type="search" v-model="keyword" @keyup.enter="searchSongs"><div class="tools"></div></header>
+    <header><a class="logo">&#x266a;</a><input type="search" v-model="keyword" @keyup.enter="searchSongs"><div class="tools" v-show="playing">{{curSong && curSong.album.picUrl}}</div></header>
 </template>
 <template data-ref="home">
     <div class="page home">
@@ -24,7 +24,7 @@
         <ul>
             <li v-for="song in songs">
                 <div class="info">
-                    <span class="name">{{song.name}}</span>
+                    <span class="name">{{$index}}.{{song.name}}</span>
                     <span class="artists">{{song.artists[0].name}}</span>
                 </div>
                 <div class="btn-area">
@@ -43,7 +43,9 @@
     </div>
 </template>
 <template data-ref="footer">
-    <footer></footer>
+    <footer>
+
+    </footer>
 </template>
 <script src="./app.js"></script>
 </body>
