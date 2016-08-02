@@ -1,3 +1,5 @@
+const cache = require('../data/settings.json');
+
 module.exports = {
     src: '',
     sourceNode: null,
@@ -5,14 +7,15 @@ module.exports = {
     context: null,
     status: 0,
     init(src){
+        this.close();
         this.src = src;
         this.context = new AudioContext();
         this.sourceNode = this.context.createBufferSource();
         this.sourceNode.connect(this.context.destination);
-        this.loadSound(src);
+        this.play(src);
         return this;
     },
-    loadSound(url) {
+    play(url) {
         let request = new XMLHttpRequest(), that = this;
         request.open('GET', url, true);
         request.responseType = 'arraybuffer';
@@ -30,6 +33,10 @@ module.exports = {
                 that.sourceNode.start(0);
                 //音乐响起后，把analyser传递到另一个方法开始绘制频谱图了，因为绘图需要的信息要从analyser里面获取
                 that.drawSpectrum(analyser);
+                that.sourceNode.onended = ()=>{
+                    console.log('autoPlay');
+                    that.autoPlay();
+                }
             });
         };
         request.onerror = function (e) {
@@ -59,21 +66,6 @@ module.exports = {
             var array = new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(array);
 
-            /*if (that.status === 0) {
-                //fix when some sounds end the value still not back to zero
-                for (let i = array.length - 1; i >= 0; i--) {
-                    array[i] = 0;
-                }
-                let allCapsReachBottom = true;
-                for (let i = capYPositionArray.length - 1; i >= 0; i--) {
-                    allCapsReachBottom = allCapsReachBottom && (capYPositionArray[i] === 0);
-                }
-                if (allCapsReachBottom) {
-                    cancelAnimationFrame(that.animationId);
-                    return;
-                }
-            }*/
-
             var step = Math.round(array.length / meterNum); //计算采样步长
             ctx.clearRect(0, 0, cwidth, cheight);
 
@@ -101,5 +93,21 @@ module.exports = {
     close(){
         this.context && this.context.close();
         return this;
+    },
+    autoPlay(sourceNode){
+        let handles = {
+            1(){
+                cache.curPlayIndex = cache.curPlayIndex === cache.curPlayList.length - 1 ? 0 : cache.curPlayIndex + 1;
+                cache.curSong = cache.curPlayList[cache.curPlayIndex];
+                return cache.curSong.mp3Url;
+            },
+            2(){
+                return this.src;
+            },
+            3(){
+
+            }
+        };
+        return this.init(handles[cache.playModel].call(this));
     }
 };

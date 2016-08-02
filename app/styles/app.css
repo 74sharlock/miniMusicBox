@@ -81,6 +81,40 @@ footer .logo {
   font-size: 24px;
   color: #ccc;
 }
+.page.search ul {
+  height: calc(100% - 30px);
+}
+.page.search ul li {
+  padding: 0 10px;
+  height: 6.66666667%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page.search ul li .info {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.page.search ul li .info .name {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.page.search ul li .info .artists {
+  flex-shrink: 0;
+  padding-left: 20px;
+}
+.page.search ul li .btn-area {
+  flex-shrink: 0;
+  padding-left: 20px;
+}
+.page.search ul li .btn-area .fa {
+  cursor: pointer;
+}
 .page.play {
   display: flex;
   flex-direction: column;

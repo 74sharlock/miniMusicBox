@@ -1,0 +1,36 @@
+.page.search {
+  ul {
+    height: ~'calc(100% - 30px)';
+    li {
+      padding: 0 10px;
+      height: 100% / 15;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .info {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        .name {
+          display: inline-block;
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .artists {
+          flex-shrink: 0;
+          padding-left: 20px;
+        }
+      }
+      .btn-area {
+        flex-shrink: 0;
+        padding-left: 20px;
+        .fa {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
