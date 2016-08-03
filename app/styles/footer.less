@@ -1,6 +1,67 @@
 footer {
-  height: 5rem;
+  border-top: 1px solid rgba(255, 255, 255, .15);
+  bottom: 0;
+  height: 6rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 10px;
+  position: relative;
+  z-index: 2;
+  .info {
+    width: 7em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .controls {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 136px;
+    top: 0;
+    left: ~'calc(50% - 68px)';
+    .item {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+    }
+    .btn {
+      color: #ccc;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background-color: #222;
+      cursor: pointer;
+      transition: background .5s, color .5s;
+    }
+    .btn:hover {
+      background-color: #111;
+      color: #fff;
+    }
+    .play .btn {
+      width: 42px;
+      height: 42px;
+    }
+  }
+  .play-model {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .fa:first-child {
+      cursor: pointer;
+    }
+    .fa-list {
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  }
 }

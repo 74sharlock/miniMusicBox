@@ -40,13 +40,15 @@ input, select, textarea {
 }
 
 #app {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  position: relative;
+  z-index: 1;
+  padding: 5rem 0 6rem 0;
   height: 100%;
   width: 100%;
 
   header, footer {
-    flex-shrink: 0;
+    position: absolute;
     width: 100%;
   }
 

@@ -43,68 +43,221 @@ textarea {
   font-family: inherit;
 }
 #app {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  position: relative;
+  z-index: 1;
+  padding: 5rem 0 6rem 0;
   height: 100%;
   width: 100%;
 }
 #app header,
 #app footer {
-  flex-shrink: 0;
+  position: absolute;
   width: 100%;
 }
 #app .page {
   height: 100%;
 }
 header {
+  top: 0;
   height: 5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: #ccc;
-  box-shadow: 0 1px 5px rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 header .logo {
   padding-left: 1rem;
   font-size: 24px;
   color: #ccc;
+  cursor: pointer;
+}
+header .search {
+  background-color: #fff;
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  font-weight: normal;
+  padding: 0 8px;
+}
+header .search .search-bar {
+  color: #999;
+  cursor: pointer;
+}
+header .search input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 10em;
+  font-size: 14px;
+}
+header .tools {
+  width: 42px;
+  height: 32px;
+  padding-right: 10px;
+}
+header .tools > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  cursor: pointer;
+}
+header .tools > div .album {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: no-repeat center;
+  background-size: cover;
+  border-radius: 50%;
+}
+header .tools > div .no-pic {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.album-transition {
+  transition: all .25s ease;
+  opacity: 1;
+  transform: translate3D(0, 0, 0);
+}
+/* .album-enter 定义进入的开始状态 */
+/* .album-leave 定义离开的结束状态 */
+.album-enter,
+.album-leave {
+  opacity: 0;
+  transform: translate3D(100%, 0, 0);
 }
 footer {
-  height: 5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  bottom: 0;
+  height: 6rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 10px;
+  position: relative;
+  z-index: 2;
+}
+footer .info {
+  width: 7em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+footer .controls {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 136px;
+  top: 0;
+  left: calc(50% - 68px);
+}
+footer .controls .item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+footer .controls .btn {
+  color: #ccc;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #222;
+  cursor: pointer;
+  transition: background .5s, color .5s;
+}
+footer .controls .btn:hover {
+  background-color: #111;
+  color: #fff;
+}
+footer .controls .play .btn {
+  width: 42px;
+  height: 42px;
+}
+footer .play-model {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer .play-model .fa:first-child {
+  cursor: pointer;
+}
+footer .play-model .fa-list {
+  cursor: pointer;
+  margin-left: 10px;
+}
+.page.search {
+  padding-bottom: 30px;
 }
 .page.search ul {
-  height: calc(100% - 30px);
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 10px;
+}
+.page.search ul::-webkit-scrollbar {
+  background-color: #333;
+  width: 8px;
+}
+.page.search ul::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 4px;
+  cursor: pointer;
 }
 .page.search ul li {
-  padding: 0 10px;
   height: 6.66666667%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 .page.search ul li .info {
   display: flex;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
 }
 .page.search ul li .info .name {
   display: inline-block;
-  width: 100%;
+  width: 6em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.page.search ul li .info .album-name {
+  width: calc(8em + 20px);
+  padding: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.page.search ul li .info .artists {
+  flex-shrink: 0;
+  width: 6em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.page.search ul li .info .artists {
-  flex-shrink: 0;
-  padding-left: 20px;
-}
 .page.search ul li .btn-area {
   flex-shrink: 0;
   padding-left: 20px;
+  width: 31px;
 }
 .page.search ul li .btn-area .fa {
   cursor: pointer;
@@ -124,6 +277,6 @@ footer {
   opacity: .2;
   width: 100%;
   height: 100%;
-  padding: 10px 5px;
+  padding: 10px 5px 0 5px;
   flex-shrink: 0;
 }

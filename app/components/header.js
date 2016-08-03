@@ -3,7 +3,8 @@ const cache = require('../store/cache');
 module.exports = {
     data(){
         return {
-            keyword:''
+            keyword:this.$route.params.name || '',
+            cache
         }
     },
     computed:{

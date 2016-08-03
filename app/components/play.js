@@ -9,7 +9,7 @@ module.exports = {
     },
     ready(){
         if(cache.curSong.mp3Url){
-            player.play(cache.curSong.mp3Url);
+            player.spectrum();
         }
     }
 };

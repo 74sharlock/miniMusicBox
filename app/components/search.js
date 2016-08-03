@@ -15,13 +15,14 @@ module.exports = {
             cache.curSong = song;
             cache.curPlayIndex = index;
             cache.curPlayList = this.songs;
-            this.$router.go({path: '/play', replace : true});
+            player.play(cache.curSong.mp3Url);
+            cache.playing = true;
+            cache.isStop = false;
         }
     },
     route: {
         data({next}){
-            musicService.search({s: this.$route.params.name}).then(function (data) {
-                console.log(data);
+            musicService.search({s: this.$route.params.name, limit: cache.limit}).then(function (data) {
                 next({
                     songs: data.result.songs,
                     totalPage: Math.ceil(data.result.songCount / cache.limit)

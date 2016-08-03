@@ -5,6 +5,7 @@
   "curPlayList": [],
   "curPlayIndex": 0,
   "playing": false,
+  "isStop": true,
   "myList": {
     "default":[]
   }

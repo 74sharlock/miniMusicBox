@@ -13,7 +13,19 @@
     <app-footer></app-footer>
 </div>
 <template data-ref="header">
-    <header><a class="logo">&#x266a;</a><input type="search" v-model="keyword" @keyup.enter="searchSongs"><div class="tools" v-show="playing">{{curSong && curSong.album.picUrl}}</div></header>
+    <header>
+        <div class="logo" @click="searchSongs">&#x266a;</div>
+        <label class="search">
+            <span class="search-bar"><i class="fa fa-search" @click="searchSongs"></i></span>
+            <input type="search" v-model="keyword" @keyup.enter="searchSongs">
+        </label>
+        <div class="tools">
+            <div v-show="playing" v-link="{path: '/play'}" transition="album">
+                <span class="album" v-if="curSong && curSong.album && curSong.album.picUrl" :style="{backgroundImage: 'url(' + curSong.album.picUrl + ')'}"></span>
+                <span class="no-pic" v-else><i class="fa fa-image"></i></span>
+            </div>
+        </div>
+    </header>
 </template>
 <template data-ref="home">
     <div class="page home">
@@ -24,8 +36,9 @@
         <ul>
             <li v-for="song in songs">
                 <div class="info">
-                    <span class="name">{{$index}}.{{song.name}}</span>
-                    <span class="artists">{{song.artists[0].name}}</span>
+                    <span class="name" :title="song.name">{{$index + 1}}.{{song.name}}</span>
+                    <span class="album-name" :title="song.album.name">{{song.album.name}}</span>
+                    <span class="artists" :title="song.artists[0].name">{{song.artists[0].name}}</span>
                 </div>
                 <div class="btn-area">
                     <i class="fa fa-play" @click="play(song, $index)"></i>
@@ -44,7 +57,13 @@
 </template>
 <template data-ref="footer">
     <footer>
-
+        <div class="info"><span v-show="curSong.name">{{curSong.name}}-{{curSong.artists && curSong.artists[0] && curSong.artists[0].name}}</span></div>
+        <div class="controls">
+            <span class="prev item"><div class="btn"><i class="fa fa-backward"></i></div></span>
+            <span class="play item"><div class="btn" @click="togglePlay"><i class="fa fa-play" :class="{'fa-play': cache.isStop, 'fa-pause': !cache.isStop}"></i></div></span>
+            <span class="next item"><div class="btn"><i class="fa fa-forward"></i></div></span>
+        </div>
+        <div class="play-model"><i class="fa" :class="{'fa-repeat': cache.playModel == 2, 'fa-exchange': cache.playModel == 1, 'fa-random': cache.playModel == 3}" title="{{playModel[cache.playModel]}}"></i><i class="fa fa-list"></i></div>
     </footer>
 </template>
 <script src="./app.js"></script>

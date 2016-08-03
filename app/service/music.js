@@ -40,6 +40,7 @@ let core = function (method, query, isBuffer) {
             res.on('end', function() {
                 isBuffer && (buffers = Buffer.concat(buffers));
                 resolve(isBuffer ? buffers : JSON.parse(body));
+                console.log(JSON.parse(body));
             });
             res.on('error', function (err) {
                 reject(err);
