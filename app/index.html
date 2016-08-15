@@ -10,7 +10,7 @@
 <div id="app">
     <app-header></app-header>
     <router-view></router-view>
-    <app-footer></app-footer>
+    <app-footer v-ref:footer></app-footer>
 </div>
 <template data-ref="header">
     <header>
@@ -52,18 +52,45 @@
         <div class="spectrum">
             <canvas></canvas>
         </div>
-        <div class="cover"></div>
+        <div class="lyric" v-show="showLyric">
+            <span>{{lyric}}</span>
+            <i class="close" @click="showLyric = false">x</i>
+        </div>
+        <div class="cover">
+            <div class="cd" :class="{playing: !isStop}" @click="showLyric = true">
+                <span :style="{backgroundImage: 'url(' + song.album.picUrl + ')'}"></span>
+            </div>
+        </div>
     </div>
 </template>
 <template data-ref="footer">
     <footer>
         <div class="info"><span v-show="curSong.name">{{curSong.name}}-{{curSong.artists && curSong.artists[0] && curSong.artists[0].name}}</span></div>
         <div class="controls">
-            <span class="prev item"><div class="btn"><i class="fa fa-backward"></i></div></span>
-            <span class="play item"><div class="btn" @click="togglePlay"><i class="fa fa-play" :class="{'fa-play': cache.isStop, 'fa-pause': !cache.isStop}"></i></div></span>
-            <span class="next item"><div class="btn"><i class="fa fa-forward"></i></div></span>
+            <span class="prev item">
+                <div class="btn">
+                    <i class="fa fa-backward"></i>
+                </div>
+            </span>
+            <span class="play item">
+                <div class="btn" @click="togglePlay">
+                    <i class="fa fa-play" :class="{'fa-play': cache.isStop, 'fa-pause': !cache.isStop}"></i>
+                </div>
+            </span>
+            <span class="next item">
+                <div class="btn">
+                    <i class="fa fa-forward"></i>
+                </div>
+            </span>
         </div>
-        <div class="play-model"><i class="fa" :class="{'fa-repeat': cache.playModel == 2, 'fa-exchange': cache.playModel == 1, 'fa-random': cache.playModel == 3}" title="{{playModel[cache.playModel]}}"></i><i class="fa fa-list"></i></div>
+        <div class="play-model">
+            <i class="fa" :class="{'fa-repeat': cache.playModel == 2, 'fa-exchange': cache.playModel == 1, 'fa-random': cache.playModel == 3}" title="{{playModel[cache.playModel]}}"></i>
+            <i class="fa fa-list"></i>
+        </div>
+        <div class="progress-block">
+            <span class="buffered"></span>
+            <span class="progress" :style="{width: progress + '%'}"></span>
+        </div>
     </footer>
 </template>
 <script src="./app.js"></script>

@@ -1,7 +1,7 @@
 const cache = require('../data/settings.json');
 const helpers = require('../helpers');
 const {remote} = require('electron');
-const audio = new Audio(); //这个是必须的 不用尝试使用audioBufferSourceNode. 我已经试过了, 那滋味...
+let audio = new Audio(); //这个是必须的 不用尝试使用audioBufferSourceNode. 我已经试过了, 那滋味...
 
 module.exports = {
     canvasNode: null,
@@ -17,17 +17,15 @@ module.exports = {
         audio
     },
     init(src){
-        this.close();
+        audio.pause();
         this.props.src = src;
+        !this.context && (this.context = new AudioContext());
+        !this.analyser && (this.analyser = this.context.createAnalyser());
+        !this.audioNode && (this.audioNode = this.context.createMediaElementSource(audio));
         this.play(src);
         return this;
     },
-    analysis(arrayBuffer, time){
-        this.arrayBuffer = arrayBuffer;
-        this.context = new AudioContext();
-        this.analyser = this.context.createAnalyser();
-        this.audioNode = this.context.createMediaElementSource(audio);
-
+    analysis(arrayBuffer){
         this.context.decodeAudioData(arrayBuffer, (buffer) => {
             //将音频节点与分析器连接
             this.audioNode.connect(this.analyser);
@@ -50,7 +48,6 @@ module.exports = {
         });
     },
     bindEvent(){
-        console.log(audio.audioTracks);
         audio.onended = ()=>{
             this.autoPlay();
         }
@@ -63,7 +60,7 @@ module.exports = {
         request.onload = function () {
             switch (request.status){
                 case 200:
-                    request.response && that.analysis(request.response, that.currentTime);
+                    request.response && that.analysis(request.response);
                     break;
                 case  404:
                     remote.dialog.showMessageBox({
@@ -146,7 +143,8 @@ module.exports = {
                 return cache.curSong.mp3Url;
             }
         };
-        return this.init(handles[cache.playModel].call(this));
+        audio.src = handles[cache.playModel].call(this);
+        audio.play();
     },
     stop(){
         audio.pause();

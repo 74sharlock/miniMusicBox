@@ -64,7 +64,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 header .logo {
   padding-left: 1rem;
@@ -136,7 +136,7 @@ header .tools > div .no-pic {
   transform: translate3D(100%, 0, 0);
 }
 footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
   bottom: 0;
   height: 6rem;
   display: flex;
@@ -151,6 +151,8 @@ footer .info {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  position: relative;
+  z-index: 3;
 }
 footer .controls {
   position: absolute;
@@ -161,6 +163,7 @@ footer .controls {
   width: 136px;
   top: 0;
   left: calc(50% - 68px);
+  z-index: 3;
 }
 footer .controls .item {
   height: 100%;
@@ -194,6 +197,8 @@ footer .play-model {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 3;
 }
 footer .play-model .fa:first-child {
   cursor: pointer;
@@ -201,6 +206,20 @@ footer .play-model .fa:first-child {
 footer .play-model .fa-list {
   cursor: pointer;
   margin-left: 10px;
+}
+footer .progress-block {
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+footer .progress-block .progress {
+  display: inline-block;
+  width: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 .page.search {
   padding-bottom: 30px;
@@ -267,10 +286,86 @@ footer .play-model .fa-list {
   flex-direction: column;
   position: relative;
 }
-.page.play .cover {
+.page.play .cover,
+.page.play .lyric {
   height: 100%;
   width: 100%;
   position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+}
+.page.play .lyric {
+  align-items: center;
+  position: absolute;
+  z-index: 8;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.page.play .lyric span {
+  color: #fff;
+  font-size: 18px;
+}
+.page.play .lyric i.close {
+  position: absolute;
+  color: #eee;
+  font-size: 24px;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+.page.play .cover {
+  padding-top: 30px;
+}
+.page.play .cover .cd {
+  display: flex;
+  position: relative;
+  width: 240px;
+  height: 240px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 20px 20px 100px rgba(255, 255, 255, 0.3) inset;
+  cursor: pointer;
+  animation: cd-rotate 60s linear infinite;
+  animation-play-state: paused;
+}
+.page.play .cover .cd.playing {
+  animation-play-state: running;
+}
+.page.play .cover .cd:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 4;
+  border-radius: 50%;
+}
+.page.play .cover .cd:after {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 5;
+  border-radius: 50%;
+}
+.page.play .cover .cd span {
+  display: block;
+  position: relative;
+  z-index: 6;
+  width: 128px;
+  height: 128px;
+  background: no-repeat center;
+  background-size: cover;
+  border-radius: 50%;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7) inset;
 }
 .page.play .spectrum {
   position: absolute;
@@ -279,4 +374,13 @@ footer .play-model .fa-list {
   height: 100%;
   padding: 10px 5px 0 5px;
   flex-shrink: 0;
+  z-index: 2;
+}
+@-webkit-keyframes cd-rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

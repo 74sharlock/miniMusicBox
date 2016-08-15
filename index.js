@@ -11,7 +11,7 @@ let creatWin = function(){
 
     win = new BrowserWindow(winConfig);
 
-    /--debug/.test(process.argv[2]) && win.webContents.openDevTools();
+    ///--debug/.test(process.argv[2]) && win.webContents.openDevTools();
 
     win.loadURL('file://' + path.join(__dirname, 'app/index.html'));
 

@@ -4,14 +4,18 @@ const cache = require('../store/cache');
 
 module.exports = {
     data(){
+        window.$root =this.$root;
         return {
             songs: [],
             pageIndex: 1,
-            totalPage: 0
+            totalPage: 0,
+            progress: 0,
+            timer: null
         }
     },
     methods:{
         play(song, index){
+            window.$vm = this;
             cache.curSong = song;
             cache.curPlayIndex = index;
             cache.curPlayList = this.songs;

@@ -1,6 +1,7 @@
 const spectrumAnalyzer = require('./spectrum-analyzer');
 
 module.exports = {
+    audio: spectrumAnalyzer.props.audio,
     play(name){
         name && spectrumAnalyzer.init(name);
         return this;
