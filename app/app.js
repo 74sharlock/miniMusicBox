@@ -12,7 +12,6 @@ Object.keys(filters).forEach((key)=>{
     Vue.filter(key, filters[key]);
 });
 
-
 const router = new VueRouter({
     linkActiveClass: 'active'
 });
